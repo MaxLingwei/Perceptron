@@ -3,6 +3,7 @@ import numpy as np
 import sys
 import os
 import math
+import random
 
 def read_data(filename):
 	data_set = []
@@ -76,21 +77,28 @@ def backpropagation(u1, v1, bias1, u2, v2, bias2, learining_rate, x, label, erro
 	return bias
 
 
+def get_random(num):
+	result = []
+	for i in range(0, num):
+		random.seed()
+		random_num = random.random() * 2 - 1
+		result.append(random_num)
 
-
+	return result
 
 
 if __name__ == '__main__':
 	train_set = read_data('two_spiral_train.txt')
 	test_set = read_data('two_spiral_test.txt') 
 
-	u1 = [0.4] * 10 + [0.5] * 10
-	v1 = [0.2] * 10 + [0.6] * 10
-	bias1 = [0.3] * 10
-	u2 = [0.7] * 10
-	v2 = [0.8] * 10
-	bias2 = 1
-	learining_rate = 1
+	u1 = get_random(20)
+	v1 = get_random(20)
+	bias1 = get_random(10)
+	u2 = get_random(10)
+	v2 = get_random(10)
+	bias2 = get_random(1)
+	bias2 = bias2[0]
+	learining_rate = 0.0001
 	error_set = []
 	error = 0
 
