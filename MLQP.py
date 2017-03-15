@@ -66,12 +66,13 @@ def backpropagation(u1, v1, bias1, u2, v2, bias2, learining_rate, x, label):
 		temp_e_v1_10 = (y - label) * y * (1 - y) * (2 * u2[i] * hidden_out[i] + v2[i]) * hidden_out[i] * (1 - hidden_out[i]) * x[1]
 
 
+
 		u1[i] -= learining_rate * temp_e_u1
 		v1[i] -= learining_rate * temp_e_v1
 
 		u1[i + 10] -= learining_rate * temp_e_u1_10
 		v1[i + 10] -= learining_rate * temp_e_v1_10
-		bias1[i] -= learining_rate * temp_e_b
+		bias1[i] -= learining_rate * temp_e_b1
 
 	return bias
 
@@ -147,6 +148,27 @@ def write_file(filename, data):
 		output.write(str(data[i]) + '\n')
 	output.close()
 
+def draw_img(u1, v1, bias1, u2, v2, bias2, threshold):
+	out_set = []
+	for i in range(0, 400):
+		for j in range(0, 400):
+			y = 0
+			x1 = float(i - 200) / 50.0
+			x2 = float(j - 200) / 50.0
+			hidden_in = []
+			hidden_out = []
+			result = forward(u1, v1, bias1, hidden_in, hidden_out, u2, v2, bias2, [x1, x2], 0)
+			
+			if result > threshold:
+			    y = 1
+			out_set.append([x1, x2, y])
+			#print [x1, x2, y]
+	output = open('img.txt', 'w')
+
+	for i in range(0, len(out_set)):
+		output.write(str(out_set[i][0]) + ' ' + str(out_set[i][1]) + ' ' + str(out_set[i][2]) + '\n')
+	output.close()
+
 if __name__ == '__main__':
 	train_set = read_data('two_spiral_train.txt')
 	test_set = read_data('two_spiral_test.txt') 
@@ -212,3 +234,6 @@ if __name__ == '__main__':
 	print bias2
 	
 	write_config('final_para.txt', u1, v1, bias1, u2, v2, bias2)
+
+	threshold = 0.5
+	draw_img(u1, v1, bias1, u2, v2, bias2, threshold)
