@@ -23,8 +23,7 @@ def train_perceptron(weight, learning_rate, train_set):
 				continue
 			weight = np.array(weight) + learning_rate * e * np.array(train_set[i][0] + [1])
 			print "iter_num" + str(iter_num)
-			print weight
-
+			
 			error_num += 1
 			iter_num += 1
 	return weight
@@ -37,7 +36,7 @@ if __name__ == '__main__':
 	train_set_1 = []
 	train_set_2 = []
 	train_set_3 = []
-	weight_set = [[0.8, 1, -1.7], [1, 1, 1], [1, 1, 1]]
+	weight_set = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
 
 
 	weight_test = [0.8, 1, -1.7]
@@ -60,10 +59,15 @@ if __name__ == '__main__':
 			train_set_3.append([origin_set[i][0], 1])
 		else:
 			train_set_3.append([origin_set[i][0], 0])
+	learning_rate = 1
+	weight_set[0] = train_perceptron(weight_set[0], learning_rate, train_set_1)
+	print weight_set[0]
 
-	weight_set[0] = train_perceptron(weight_set[0], 1, train_set_1)
-	weight_set[1] = train_perceptron(weight_set[1], 1, train_set_2)
-	weight_set[2] = train_perceptron(weight_set[2], 1, train_set_3)
+	weight_set[1] = train_perceptron(weight_set[1], learning_rate, train_set_2)
+	print weight_set[1]
+
+	weight_set[2] = train_perceptron(weight_set[2], learning_rate, train_set_3)
+	print weight_set[2]
 
 	print "result"
 	for i in range(0, len(weight_set)):
